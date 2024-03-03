@@ -1,4 +1,6 @@
 import os
+import streamlit as st
+
 
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -16,6 +18,15 @@ tweet_prompt = PromptTemplate.from_template(" {topic}.")
 tweet_chain = LLMChain(llm=llm, prompt=tweet_prompt, verbose=True)
 
 if __name__=="__main__":
-    topic = "who won in world war II"
-    resp = tweet_chain.run(topic=topic)
-    print(resp)
+    st.title("Chatbot By Bala")
+    
+    # Input field for user to enter topic
+    topic = st.text_input("Enter topic:", "")
+    
+    # Button to generate tweet
+    if st.button("Generate Tweet"):
+        # Generate response using LLMChain
+        resp = tweet_chain.run(topic=topic)
+        # Display response
+        st.write("Generated Tweet:")
+        st.write(resp)
